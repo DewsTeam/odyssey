@@ -1,52 +1,30 @@
-const { gql } = require('apollo-server');
+import { gql } from 'apollo-server'
+import Users from './data-sources/Users'
 
-const users = [
-    {
-        id: "1",
-        name:"Amam",
-        email: "amam@amam.me",
-        phoneNumber:"01521103492",
-        nidNumber:"105224568",
-        isMarried: true,
-        lastBloodGivenAt:"10Dec",
-        bloodGivenCount:2
-    },
-    {
-        id: "2",
-        name:"Wahab",
-        email: "amam@amam.me",
-        phoneNumber:"01521103492",
-        nidNumber:"105224568",
-        isMarried: true,
-        lastBloodGivenAt:"10Dec",
-        bloodGivenCount:2
-    },
-]
+const users = new Users()
 
-const typeDefs = gql`
-
+export const typeDefs = gql`
   type User {
     id: String
-    name:String
-    email: String
-    phoneNumber:String
-    nidNumber: String
-    isMarried: Boolean
-    lastBloodGivenAt: String
-    bloodGivenCount: Int
+    name:String!
+    email: String!
+    phoneNumber:String!
+    nidNumber: String!
+    isMarried: Boolean!
+    lastBloodGivenAt: String!
+    bloodGivenCount: Int!
   }
 
   type Query {
-    users: [User]
-    user(id: String!): User
+    users: [User!]!
+    getUser(name: String!): User!
   }
 `
 
-const resolvers = {
+export const resolvers = {
     Query: {
-      users: () => users,
-      user: (_, {id}, {}) => users.find(c=>c.id==id)
+      users: () => users.getUsers(),
+      getUser: (_, {name}, {}) => users.getUser(name)
     },
 };
 
-module.exports = {typeDefs, resolvers}
