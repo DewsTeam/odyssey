@@ -1,7 +1,7 @@
 import { Schema } from 'mongoose'
 import mongoose from 'mongoose'
 
-mongoose.connect('mongodb://localhost:27017/odyssey');
+mongoose.connect(process.env.DB_URL);
 
 
 export const UsersModel = mongoose.model('users', new Schema({ 
@@ -10,7 +10,7 @@ export const UsersModel = mongoose.model('users', new Schema({
   phoneNumber:String,
   nidNumber: String,
   isMarried: Boolean,
-  lastBloodGivenAt: String,
+  lastBloodGivenAt: Date,
   bloodGivenCount: Number  
 }))
 
